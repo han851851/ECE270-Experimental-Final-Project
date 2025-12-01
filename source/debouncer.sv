@@ -12,8 +12,7 @@ module debouncer (
     end
 
 
-    localparam CNT_MAX = 250000; for actual 12MHz clock in game
-    //localparam CNT_MAX = 12; // for faster simulation
+    localparam CNT_MAX = 250000;
     
     logic [17:0] count;
     logic state;
