@@ -1,6 +1,6 @@
 `default_nettype none
 
-module pong_top (
+module top (
     input  logic clk,       // System Clock
     input  logic reset,     // Hardware Reset Button
     input  logic btn_up,    // Up Button
