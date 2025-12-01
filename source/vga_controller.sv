@@ -23,6 +23,7 @@ module vga_controller (
         end
     end
 
+    //wrap around
     assign hsync = ~((h_count >= (HD+HF)) && (h_count < (HD+HF+HR)));
     assign vsync = ~((v_count >= (VD+VF)) && (v_count < (VD+VF+VR)));
     assign video_on = (h_count < HD) && (v_count < VD);
