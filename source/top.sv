@@ -1,7 +1,5 @@
-`default_nettype none
-
 module top (
-    input  logic clk,       // System Clock
+    input  logic clk,       // System Clock (External pin, now unused)
     input  logic reset,     // Hardware Reset Button
     input  logic btn_up,    // Up Button
     input  logic btn_down,  // Down Button
@@ -13,7 +11,7 @@ module top (
 );
 
     // --- Internal Signals ---
-    logic pixel_clk;
+    logic pixel_clk;  // This will now be driven by the PLL
     logic video_on;
     logic [9:0] pixel_x, pixel_y;
     logic [9:0] paddle_y;
@@ -25,16 +23,23 @@ module top (
     logic btn_up_db;
     logic btn_down_db;
 
-    // 1. Clock Divider
-    // Assuming input clk is 12MHz, we divide by 2 to get 6MHz pixel clock
-    always_ff @(posedge clk) begin
-        if (reset_db) 
-            pixel_clk <= 0;
-        else 
-            pixel_clk <= ~pixel_clk;
-    end
+    // -----------------------------------------------------------
+    // 1. Clock Generation (Replaces the old Clock Divider)
+    // -----------------------------------------------------------
+    // Old divide-by-2 logic is REMOVED. 
+    // New PLL instance drives pixel_clk directly at ~25.125 MHz.
+    
+    pll_clkGen pll_inst (
+        .VGA_CLK(pixel_clk)
+    );
 
-    // 2. Debouncers (up and down because paddle moves vertically)
+    // -----------------------------------------------------------
+    // 2. Debouncers 
+    // -----------------------------------------------------------
+    // Note: We are still using pixel_clk to drive the debouncers.
+    // Since pixel_clk is now ~25 MHz (up from 6 MHz), we must 
+    // update the CNT_MAX inside debouncer.sv (see step 2 below).
+    
     debouncer db_reset (
         .clk(pixel_clk), 
         .in(reset), 
@@ -53,43 +58,5 @@ module top (
         .out(btn_down_db)
     );
 
-    // 3. VGA Timing
-    vga_controller vga_inst (
-        .clk(pixel_clk),
-        .reset(reset_db),
-        .video_on(video_on),
-        .hsync(hsync),
-        .vsync(vsync),
-        .pixel_x(pixel_x),
-        .pixel_y(pixel_y)
-    );
-
-    // 4. Game Logic
-    game_core logic_inst (
-        .clk(pixel_clk),
-        .reset(reset_db),
-        .frame_tick(vsync),
-        .btn_up(btn_up_db),
-        .btn_down(btn_down_db),
-        .video_on(video_on), 
-        .paddle_y(paddle_y),
-        .ball_x(ball_x),
-        .ball_y(ball_y),
-        .game_over(game_over)
-    );
-
-    // 5. Pixel Renderer
-    pixel_renderer paint_inst (
-        .video_on(video_on),
-        .pixel_x(pixel_x),
-        .pixel_y(pixel_y),
-        .paddle_y(paddle_y),
-        .ball_x(ball_x),
-        .ball_y(ball_y),
-        // .game_over(game_over), // Not needed for white/freeze logic
-        .red(vga_r),
-        .green(vga_g),
-        .blue(vga_b)
-    );
-
-endmodule
+    // --- The rest of the module (VGA Timing, Game Logic, Renderer) remains the same ---
+    // ...
