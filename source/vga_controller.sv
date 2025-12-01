@@ -1,3 +1,5 @@
+//basically 'draws' the screen by generating sync signals and pixel coordinates
+
 module vga_controller (
     input logic clk, reset,
     output logic video_on, hsync, vsync,
