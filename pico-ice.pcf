@@ -1,0 +1,29 @@
+# --- User Inputs ---
+set_io reset     10  # ICE_PB (Built-in Button)
+set_io btn_up    19  # PMOD2A_IO4 (Pin 19)
+set_io btn_down  18  # PMOD2B_IO4 (Pin 18)
+
+# --- VGA Outputs ---
+
+# Red Channel [0..3] -> PMOD0A (Bottom Row of PMOD0)
+# Mapping: LSB (r[0]) to IO1 (Pin 4) ... MSB (r[3]) to IO4 (Pin 45)
+set_io vga_r[0]  4
+set_io vga_r[1]  2
+set_io vga_r[2]  47
+set_io vga_r[3]  45
+
+# Green Channel [0..3] -> PMOD0B (Top Row of PMOD0)
+set_io vga_g[0]  3
+set_io vga_g[1]  48
+set_io vga_g[2]  46
+set_io vga_g[3]  44
+
+# Blue Channel [0..3] -> PMOD1A (Bottom Row of PMOD1)
+set_io vga_b[0]  43
+set_io vga_b[1]  38
+set_io vga_b[2]  34
+set_io vga_b[3]  31
+
+# Sync Signals -> PMOD1B (Top Row of PMOD1)
+set_io hsync     42  # PMOD1B_IO1
+set_io vsync     36  # PMOD1B_IO2
