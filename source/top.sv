@@ -1,5 +1,4 @@
 module top (
-    input  logic clk,       // System Clock (External pin, now unused)
     input  logic reset,     // Hardware Reset Button
     input  logic btn_up,    // Up Button
     input  logic btn_down,  // Down Button
@@ -82,7 +81,7 @@ module top (
         .paddle_y(paddle_y),
         .ball_x(ball_x),
         .ball_y(ball_y),
-        .game_over(game_over),
+        //.game_over(game_over), unused
         .red(vga_r),
         .green(vga_g),
         .blue(vga_b)
