@@ -11,7 +11,7 @@ module debouncer (
         sync_1 <= sync_0;
     end
 
-
+    //parameter for 
     localparam CNT_MAX = 250000;
     
     logic [17:0] count;

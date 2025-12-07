@@ -1,13 +1,11 @@
 //top wrapper, connects pong module's signals to actual pins on the pico
 
 module top (
-    // Inputs (Mapped to Board Buttons/PMODs)
-    input  logic ICE_PB,          // Built-in Button (Active Low)
-    input  logic ICE_PMOD2A_IO1,  // External Button Up (Mapped to Pin 27)
-    input  logic ICE_PMOD2A_IO2,  // External Button Down (Mapped to Pin 25)
-
-    // Outputs (Mapped to PMODs for VGA)
-    
+    // Inputs
+    input  logic ICE_PB,  // pb, reset        
+    input  logic ICE_42,  // for 'up', connected to breadboard switch
+    input  logic ICE_43,  // for 'down', also breadboard switch
+    // outputs, VGA
     // Red Channel -> PMOD0A [IO1..IO4]
     output logic ICE_PMOD0A_IO1, // R[0]
     output logic ICE_PMOD0A_IO2, // R[1]
@@ -31,6 +29,7 @@ module top (
     output logic ICE_PMOD1B_IO2  // VSYNC
 );
 
+    
     // Internal Wires to connect Wrapper to Top
     logic [3:0] w_red, w_green, w_blue;
     logic w_hsync, w_vsync;

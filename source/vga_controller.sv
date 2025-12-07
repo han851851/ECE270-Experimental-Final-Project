@@ -5,6 +5,7 @@ module vga_controller (
     output logic video_on, hsync, vsync,
     output logic [9:0] pixel_x, pixel_y
 );
+    //parameters for 640x480, 60hz
     localparam HD=640, HF=16, HB=48, HR=96, HT=800;
     localparam VD=480, VF=10, VB=33, VR=2,  VT=525;
     logic [9:0] h_count, v_count;
